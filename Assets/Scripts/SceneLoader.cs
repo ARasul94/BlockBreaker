@@ -5,6 +5,7 @@ public class SceneLoader : MonoBehaviour
 {
     private int _curSceneIndex;
     private int _sceneCount;
+    
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);

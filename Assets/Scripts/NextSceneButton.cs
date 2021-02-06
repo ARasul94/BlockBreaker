@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class NextSceneButton : MonoBehaviour
 {
     private Button _nextSceneButton;
+    
     private void Start()
     {
         _nextSceneButton = GetComponent<Button>();
