@@ -11,6 +11,7 @@ public class LoseCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        _sceneLoader.LoadGameOverScene();
+        if (_sceneLoader != null)
+            _sceneLoader.LoadGameOverScene();
     }
 }
