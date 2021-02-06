@@ -26,4 +26,10 @@ public class SceneLoader : MonoBehaviour
         }
         SceneManager.LoadScene(_curSceneIndex);
     }
+
+    public void LoadGameOverScene()
+    {
+        _curSceneIndex = _sceneCount - 1;
+        SceneManager.LoadScene(_curSceneIndex);
+    }
 }
