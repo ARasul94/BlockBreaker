@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 4
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -260,3 +260,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fec45ccbe6d84c4b8359a8ae3ded84b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreTextfield: {fileID: 2588727313706206880}

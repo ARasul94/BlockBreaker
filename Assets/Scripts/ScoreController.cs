@@ -10,7 +10,7 @@ public class ScoreController : MonoBehaviour
 
     private void Start()
     {
-        scoreTextfield.text = string.Empty;
+        UpdateDisplayedScore(0);
     }
 
     public void UpdateDisplayedScore(int score)
