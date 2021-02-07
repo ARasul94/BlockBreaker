@@ -129,4 +129,4 @@ MonoBehaviour:
   screenWidthInUnits: 16
   minX: -7
   maxX: 7
-  ballOffset: 0.45
+  ballOffset: 0.7
