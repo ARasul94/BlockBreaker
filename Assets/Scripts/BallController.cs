@@ -6,6 +6,8 @@ public class BallController : MonoBehaviour
 {
     [SerializeField] private float pushOffsetX;
     [SerializeField] private float pushOffsetY;
+    [SerializeField] private AudioClip[] availableSounds;
+    
     
     private PaddleController _paddle;
     private Rigidbody2D _rigidbody2D;
@@ -80,7 +82,8 @@ public class BallController : MonoBehaviour
     {
         if (_gameStarted)
         {
-            _audioSource.Play();
+            var randomClip = availableSounds[Random.Range(0, availableSounds.Length)];
+            _audioSource.PlayOneShot(randomClip);
         }
     }
 }
