@@ -6,7 +6,8 @@ public class BlockController : MonoBehaviour
     [SerializeField] private AudioClip breakSound;
     [SerializeField] private int scoreForDestroying = 10;
     [SerializeField] private GameObject sparkleVFX;
-    
+    [SerializeField] private bool breakable = true;
+
 
     private LevelController _levelController;
     private GameStatus _gameStatus;
@@ -19,12 +20,14 @@ public class BlockController : MonoBehaviour
 
     private void Start()
     {
-        _levelController.AddBreakableBlock();
+        if (breakable)
+            _levelController.AddBreakableBlock();
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        DestroyBlock();
+        if (breakable)
+            DestroyBlock();
     }
 
     private void DestroyBlock()

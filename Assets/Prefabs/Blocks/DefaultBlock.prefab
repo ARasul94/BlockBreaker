@@ -124,3 +124,4 @@ MonoBehaviour:
   breakSound: {fileID: 8300000, guid: 6efa8257bf65deb4fb77d871875ff7d6, type: 3}
   scoreForDestroying: 10
   sparkleVFX: {fileID: 100000, guid: 7d846c02296ef4dc4abff04ce3e5262c, type: 3}
+  breakable: 1
