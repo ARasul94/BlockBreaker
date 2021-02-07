@@ -5,7 +5,10 @@ public class PaddleController : MonoBehaviour
     [SerializeField] private float screenWidthInUnits = 16;
     [SerializeField] private float minX = -7;
     [SerializeField] private float maxX = 7;
-    
+    [SerializeField] private float ballOffset;
+
+    public float BallOffset => ballOffset;
+
 
     private void Update()
     {
