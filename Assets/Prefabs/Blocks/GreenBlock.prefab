@@ -82,5 +82,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GreenBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 3132556570336560444, guid: 7bdf7de4822556e4a9cb0995fcf483ef,
+        type: 3}
+      propertyPath: scoreForDestroying
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bdf7de4822556e4a9cb0995fcf483ef, type: 3}

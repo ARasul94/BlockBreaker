@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
     
     private Vector3 _offset;
     private bool _gameStarted;
+    
     private void Awake()
     {
         _paddle = FindObjectOfType<PaddleController>();
