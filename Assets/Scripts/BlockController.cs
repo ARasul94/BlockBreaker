@@ -6,12 +6,16 @@ public class BlockController : MonoBehaviour
     [Header("links")]
     [SerializeField] private AudioClip breakSound;
     [SerializeField] private GameObject sparkleVFX;
+    [SerializeField] private Sprite[] lifetimeSprites;
     
+    [Header("Components")] 
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
     [Header("Parameters")]
     [SerializeField] private int scoreForDestroying = 10;
-    [SerializeField] private int lifes = 1;
     [SerializeField] private bool breakable = true;
 
+    private int _lifes = 1;
 
     private LevelController _levelController;
     private GameStatus _gameStatus;
@@ -20,12 +24,20 @@ public class BlockController : MonoBehaviour
     {
         _levelController = FindObjectOfType<LevelController>();
         _gameStatus = FindObjectOfType<GameStatus>();
+        _lifes = lifetimeSprites.Length;
     }
 
     private void Start()
     {
         if (breakable)
             _levelController.AddBreakableBlock();
+        
+        UpdateBlockSprites();
+    }
+
+    private void UpdateBlockSprites()
+    {
+        spriteRenderer.sprite = lifetimeSprites[_lifes - 1];
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -38,9 +50,13 @@ public class BlockController : MonoBehaviour
 
     private void HandleHit()
     {
-        lifes--;
-        if (lifes <= 0)
+        _lifes--;
+        if (_lifes <= 0)
             DestroyBlock();
+        else
+        {
+            UpdateBlockSprites();
+        }
     }
 
     private void DestroyBlock()
