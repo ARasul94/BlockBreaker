@@ -37,7 +37,14 @@ public class BlockController : MonoBehaviour
 
     private void UpdateBlockSprites()
     {
-        spriteRenderer.sprite = lifetimeSprites[_lifes - 1];
+        var sprite = lifetimeSprites[_lifes - 1];
+
+        if (sprite != null)
+            spriteRenderer.sprite = sprite;
+        else
+        {
+            Debug.LogError($"Block {gameObject.name} sprite equals to null");
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
