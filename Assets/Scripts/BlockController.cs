@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class BlockController : MonoBehaviour
 {
+    [Header("links")]
     [SerializeField] private AudioClip breakSound;
-    [SerializeField] private int scoreForDestroying = 10;
     [SerializeField] private GameObject sparkleVFX;
+    
+    [Header("Parameters")]
+    [SerializeField] private int scoreForDestroying = 10;
+    [SerializeField] private int lifes = 1;
     [SerializeField] private bool breakable = true;
 
 
@@ -27,6 +31,15 @@ public class BlockController : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (breakable)
+        {
+            HandleHit();
+        }
+    }
+
+    private void HandleHit()
+    {
+        lifes--;
+        if (lifes <= 0)
             DestroyBlock();
     }
 
