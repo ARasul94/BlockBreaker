@@ -6,7 +6,10 @@ using UnityEngine;
 public class GameStatus : MonoBehaviour
 {
     [Range(0, 3)][SerializeField] private float gameSpeed = 1;
-    
+    [SerializeField] private bool autoPlay;
+
+    public bool AutoPlay => autoPlay;
+
     private int _score;
     private ScoreController _scoreController;
 
@@ -23,6 +26,10 @@ public class GameStatus : MonoBehaviour
     private void Update()
     {
         Time.timeScale = gameSpeed;
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            autoPlay = !autoPlay;
+        }
     }
 
     public void AddScore(int additionalScore)

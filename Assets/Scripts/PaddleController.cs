@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PaddleController : MonoBehaviour
 {
@@ -9,13 +10,33 @@ public class PaddleController : MonoBehaviour
 
     public float BallOffset => ballOffset;
 
+    private BallController _ball;
+    private GameStatus _gameStatus;
+    private float _startYPos;
+
+
+    private void Awake()
+    {
+        _ball = FindObjectOfType<BallController>();
+        _gameStatus = FindObjectOfType<GameStatus>();
+        _startYPos = transform.position.y;
+    }
 
     private void Update()
     {
-        float mousePositionInUnits = Input.mousePosition.x / Screen.width * screenWidthInUnits - screenWidthInUnits / 2;
-        mousePositionInUnits = Mathf.Clamp(mousePositionInUnits, minX, maxX);
-        
-        Vector2 paddlePosition = new Vector2(mousePositionInUnits, transform.position.y);
-        transform.position = paddlePosition;
+        var mousePositionInUnits = Mathf.Clamp(GetXPos(), minX, maxX);
+        transform.position = new Vector2(mousePositionInUnits, _startYPos);
+    }
+
+    private float GetXPos()
+    {
+        if (_gameStatus.AutoPlay)
+        {
+            return _ball.transform.position.x;
+        }
+        else
+        {
+            return Input.mousePosition.x / Screen.width * screenWidthInUnits - screenWidthInUnits / 2;
+        }
     }
 }
