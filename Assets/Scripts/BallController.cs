@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class BallController : MonoBehaviour
@@ -7,8 +6,8 @@ public class BallController : MonoBehaviour
     [SerializeField] private float pushOffsetX;
     [SerializeField] private float pushOffsetY;
     [SerializeField] private AudioClip[] availableSounds;
-    
-    
+    [SerializeField] private float randomFactor;
+
     private PaddleController _paddle;
     private Rigidbody2D _rigidbody2D;
     private AudioSource _audioSource;
@@ -83,8 +82,13 @@ public class BallController : MonoBehaviour
     {
         if (_gameStarted)
         {
+            var velocityTweak = new Vector2(
+                Random.Range(-randomFactor, randomFactor),
+                Random.Range(-randomFactor, randomFactor));
             var randomClip = availableSounds[Random.Range(0, availableSounds.Length)];
             _audioSource.PlayOneShot(randomClip);
+
+            _rigidbody2D.velocity += velocityTweak;
         }
     }
 }
