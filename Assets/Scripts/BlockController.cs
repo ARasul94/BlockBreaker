@@ -15,6 +15,8 @@ public class BlockController : MonoBehaviour
     [SerializeField] private int scoreForDestroying = 10;
     [SerializeField] private bool breakable = true;
 
+    public bool Breakable => breakable;
+
     private int _lifes = 1;
 
     private LevelController _levelController;

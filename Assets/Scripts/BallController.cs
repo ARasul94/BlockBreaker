@@ -7,10 +7,13 @@ public class BallController : MonoBehaviour
     [SerializeField] private float pushOffsetY;
     [SerializeField] private AudioClip[] availableSounds;
     [SerializeField] private float randomFactor;
-
+    
     private PaddleController _paddle;
     private Rigidbody2D _rigidbody2D;
     private AudioSource _audioSource;
+    private float _defaultBonus = 1;
+    private float _increaseBonus = 0.1f;
+    private int _blockTouchCount = 0;
     
     private Vector3 _offset;
     private bool _gameStarted;
@@ -82,13 +85,48 @@ public class BallController : MonoBehaviour
     {
         if (_gameStarted)
         {
-            var velocityTweak = new Vector2(
-                Random.Range(-randomFactor, randomFactor),
-                Random.Range(-randomFactor, randomFactor));
-            var randomClip = availableSounds[Random.Range(0, availableSounds.Length)];
-            _audioSource.PlayOneShot(randomClip);
-
-            _rigidbody2D.velocity += velocityTweak;
+            AddRandomVelocityTweak();
+            PlaySFX();
+            SetBonus(other.gameObject);
         }
+    }
+
+    private void AddRandomVelocityTweak()
+    {
+        var velocityTweak = new Vector2(
+            Random.Range(-randomFactor, randomFactor),
+            Random.Range(-randomFactor, randomFactor));
+        _rigidbody2D.velocity += velocityTweak;
+    }
+
+    private void PlaySFX()
+    {
+        var randomClip = availableSounds[Random.Range(0, availableSounds.Length)];
+        _audioSource.PlayOneShot(randomClip);
+    }
+
+    private void SetBonus(GameObject collideGameObject)
+    {
+        var isPaddle = collideGameObject.GetComponent<PaddleController>() != null;
+        if (isPaddle)
+        {
+            _blockTouchCount = 0;
+            return;
+        }
+
+        var block = collideGameObject.GetComponent<BlockController>();
+        if (block != null)
+        {
+            if (block.Breakable)
+                _blockTouchCount++;
+        }
+    }
+
+    public float GetBonus()
+    {
+        if (_blockTouchCount <= 1)
+            return _defaultBonus;
+        
+        return _defaultBonus + _increaseBonus * (_blockTouchCount - 1);
     }
 }
