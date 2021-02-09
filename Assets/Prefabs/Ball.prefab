@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pushOffsetX: 1
-  pushOffsetY: 15
+  pushOffsetY: 12
   availableSounds:
   - {fileID: 8300000, guid: 19bacc37246735d4f993b5199393cf8c, type: 3}
   - {fileID: 8300000, guid: 9752bfc5cbf22ec4f920844de583a225, type: 3}
@@ -154,7 +154,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 6efa8257bf65deb4fb77d871875ff7d6, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
