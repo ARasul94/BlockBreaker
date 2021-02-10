@@ -9,28 +9,34 @@ namespace ScriptableObjects
     [CreateAssetMenu][Serializable]
     public class ScoreTable : ScriptableObject
     {
-        [SerializeField] private List<Player> Players = new List<Player>();
+        [SerializeField] private List<Level> Levels = new List<Level>();
+        private Dictionary<string, Level> _levels = new Dictionary<string, Level>();
         
-        private Dictionary<GUID, Player> _players = new Dictionary<GUID, Player>();
-
-        public void AddPlayer(string newPlayerName)
+        public void AddLevel(string levelName)
         {
-            var player = new Player(newPlayerName);
-            _players.Add(player.Id, player);
+            if (_levels.ContainsKey(levelName))
+                return;
             
-            Players.Clear();
-            Players.AddRange(_players.Values);
+            var level = new Level(levelName);
+            _levels.Add(level.Name, level);
+            
+            Levels.Clear();
+            Levels.AddRange(_levels.Values);
+            Levels.Sort();
         }
         
-        public void RemovePlayer(GUID playerId)
+        public void RemoveLevel(string levelName)
         {
-            _players.Remove(playerId);
+            if (_levels.ContainsKey(levelName))
+                _levels.Remove(levelName);
         }
 
-        public void UpdatePlayerLevelInfo(GUID playerId, PlayerLevelResult levelResult)
+        public void UpdatePlayerLevelInfo(string levelName, GUID playerId, int newResult)
         {
-            var player = _players[playerId];
-            player.UpdateLevelInfo(levelResult);
+            if (!_levels.ContainsKey(levelName))
+                return;
+            var level = _levels[levelName];
+            level.UpdatePlayerLevelInfo(playerId, newResult);
         }
     }
 }

@@ -1,33 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEngine;
 
 namespace Models
 {
     [Serializable]
-    public class Player
+    public class Player: IComparable<Player>
     {
         public string Name;
-        public GUID Id;
-        public Dictionary<string, PlayerLevelResult> LevelResults;
+        public int Result;
+        public GUID Id => _id;
 
-        public Player(string name)
+        private GUID _id;
+
+        public Player(string name, int result)
         {
             Name = name;
-            LevelResults = new Dictionary<string, PlayerLevelResult>();
-            Id = GUID.Generate();
+            Result = result;
+            _id = GUID.Generate();
         }
 
-        public void UpdateLevelInfo(PlayerLevelResult levelResult)
+        public void UpdatePlayerResult(int result)
         {
-            if (LevelResults.ContainsKey(levelResult.LevelName))
-            {
-                LevelResults[levelResult.LevelName] = levelResult;
-            }
-            else
-            {
-                LevelResults.Add(levelResult.LevelName, levelResult);
-            }
+            Result = result;
+        }
+
+        public int CompareTo(Player player)
+        {
+            var i = Result.CompareTo(player.Result);
+            if (i == 0)
+                i = Name.CompareTo(player.Name);
+
+            return i;
         }
     }
 }
