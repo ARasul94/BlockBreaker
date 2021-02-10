@@ -90,6 +90,6 @@ public class BlockController : MonoBehaviour
 
     private void AddScore()
     {
-        _gameStatus.AddScore(scoreForDestroying);
+        _gameStatus.AddScore(scoreForDestroying, transform.position);
     }
 }

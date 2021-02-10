@@ -45,3 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameSpeed: 1
   autoPlay: 0
+  spawnTextPrefab: {fileID: -1874370416852436040, guid: d50659dafc9c24646a513dad39a747d0,
+    type: 3}
