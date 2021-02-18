@@ -1,19 +1,29 @@
-﻿using UnityEngine;
+﻿using System;
+using ScriptableObjects;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Controllers
 {
     public class SceneLoader : MonoBehaviour
     {
+        [SerializeField] private ScoreTable scoreTable;
+        
+
         private int _curSceneIndex;
         private int _sceneCount;
-    
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
 
             _curSceneIndex = SceneManager.GetActiveScene().buildIndex;
             _sceneCount = SceneManager.sceneCountInBuildSettings;
+        }
+
+        private void Start()
+        {
+            SceneManager.sceneLoaded += SceneManagerOnsceneLoaded;
         }
 
         public void LoadNextScene()
@@ -26,6 +36,17 @@ namespace Controllers
             {
                 _curSceneIndex = 0;
             }
+            
+            SceneManager.LoadScene(_curSceneIndex);
+        }
+
+        private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void RetryLevel()
+        {
             SceneManager.LoadScene(_curSceneIndex);
         }
 
