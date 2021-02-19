@@ -9,9 +9,9 @@ namespace Models
     public class Level: IComparable<Level>
     {
         public string Name;
-        [SerializeField] private List<Player> Players = new List<Player>();
+        [SerializeField] private List<PlayerLevelResult> PlayersResults = new List<PlayerLevelResult>();
         
-        private Dictionary<GUID, Player> _players = new Dictionary<GUID, Player>();
+        private Dictionary<GUID, PlayerLevelResult> _players = new Dictionary<GUID, PlayerLevelResult>();
         
         public GUID Id => _id;
 
@@ -23,14 +23,14 @@ namespace Models
             _id = GUID.Generate();
         }
 
-        public void AddPlayer(string newPlayerName, int result)
+        public void AddPlayer(Player player, int result)
         {
-            var player = new Player(newPlayerName, result);
-            _players.Add(player.Id, player);
+            var playerLevelResult = new PlayerLevelResult(this, player, result);
+            _players.Add(playerLevelResult.Player.Id, playerLevelResult);
             
-            Players.Clear();
-            Players.AddRange(_players.Values);
-            Players.Sort();
+            PlayersResults.Clear();
+            PlayersResults.AddRange(_players.Values);
+            PlayersResults.Sort();
         }
         
         public void RemovePlayer(GUID playerId)
