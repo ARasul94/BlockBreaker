@@ -1,39 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using Enums;
+using Helpers;
 using Models;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace ScriptableObjects
 {
     [CreateAssetMenu][Serializable]
     public class PlayersTable : ScriptableObject
     {
-        [SerializeField] private List<Player> Players = new List<Player>();
-        private Dictionary<GUID, Player> _players = new Dictionary<GUID, Player>();
+        [SerializeField] private List<Player> players = new List<Player>();
+        private Dictionary<string, Player> _players = new Dictionary<string, Player>();
         
-        public void AddPlayer(string playerName)
+        public Player AddPlayer(string playerName)
         {
+            if (_players.ContainsKey(playerName))
+                throw new PlayerTableException(PlayerTableErrors.PLAYER_WITH_SUCH_NAME_ALREADY_EXIST);
             var player = new Player(playerName);
-            _players.Add(player.Id, player);
+            _players.Add(playerName, player);
             
-            Players.Clear();
-            Players.AddRange(_players.Values);
-            Players.Sort();
+            players.Clear();
+            players.AddRange(_players.Values);
+            players.Sort();
+            
+            return player;
         }
         
-        public void RemovePlayer(GUID playerId)
+        public void RemovePlayer(Player player)
         {
-            if (_players.ContainsKey(playerId))
-                _players.Remove(playerId);
-        }
-
-        public void UpdatePlayerInfo(GUID playerId, Player player)
-        {
-            if (!_players.ContainsKey(playerId))
-                return;
-
-            _players[playerId] = player;
+            if (_players.ContainsKey(player.Name))
+                _players.Remove(player.Name);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ScriptableObjects
     [CreateAssetMenu][Serializable]
     public class ScoreTable : ScriptableObject
     {
-        [SerializeField] private List<Level> Levels = new List<Level>();
+        [SerializeField] private List<Level> levels = new List<Level>();
         private Dictionary<string, Level> _levels = new Dictionary<string, Level>();
         
         public void AddLevel(string levelName)
@@ -20,9 +20,9 @@ namespace ScriptableObjects
             var level = new Level(levelName);
             _levels.Add(level.Name, level);
             
-            Levels.Clear();
-            Levels.AddRange(_levels.Values);
-            Levels.Sort();
+            levels.Clear();
+            levels.AddRange(_levels.Values);
+            levels.Sort();
         }
         
         public void RemoveLevel(string levelName)
