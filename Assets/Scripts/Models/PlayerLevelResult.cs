@@ -20,7 +20,8 @@ namespace Models
 
         public void UpdatePlayerResult(int result)
         {
-            Result = result;
+            if (result > Result)
+                Result = result;
         }
         
         public int CompareTo(PlayerLevelResult other)

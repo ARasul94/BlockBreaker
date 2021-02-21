@@ -9,6 +9,7 @@ namespace Controllers
         [SerializeField] private EarnedScore spawnTextPrefab;
 
         public bool AutoPlay => autoPlay;
+        public int Score => _score;
 
         private int _score;
         private ScoreController _scoreController;

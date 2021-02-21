@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Enums;
 using Helpers;
 using Models;
@@ -10,18 +11,19 @@ namespace ScriptableObjects
     [CreateAssetMenu][Serializable]
     public class PlayersTable : ScriptableObject
     {
-        [SerializeField] private List<Player> players = new List<Player>();
-        private Dictionary<string, Player> _players = new Dictionary<string, Player>();
-        
+        [SerializeField] private List<Player> players;
+
         public Player AddPlayer(string playerName)
         {
-            if (_players.ContainsKey(playerName))
+            if (players == null)
+                players = new List<Player>();
+            
+            if (players.Count(x => x.Name == playerName) > 0)
                 throw new PlayerTableException(PlayerTableErrors.PLAYER_WITH_SUCH_NAME_ALREADY_EXIST);
             var player = new Player(playerName);
-            _players.Add(playerName, player);
-            
-            UpdatePlayerList();
-            
+
+            players.Add(player);
+
             return player;
         }
         
@@ -29,12 +31,9 @@ namespace ScriptableObjects
         {
             try
             {
-                if (_players.ContainsKey(player.Name))
-                {
-                    _players.Remove(player.Name);
-                    UpdatePlayerList();
-                    return true;
-                }
+                var tmpPlayer = players?.FirstOrDefault(x=> x.Id == player.Id);
+                if (tmpPlayer != null)
+                    players.Remove(tmpPlayer );
 
                 Debug.LogError(new PlayerTableException(PlayerTableErrors.PLAYER_NOT_EXIST));
                 return false;
@@ -50,13 +49,6 @@ namespace ScriptableObjects
         public List<Player> GetPlayers()
         {
             return players;
-        }
-
-        private void UpdatePlayerList()
-        {
-            players.Clear();
-            players.AddRange(_players.Values);
-            players.Sort();
         }
     }
 }

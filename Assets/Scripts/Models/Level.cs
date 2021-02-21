@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,9 +10,7 @@ namespace Models
     public class Level: IComparable<Level>
     {
         public string Name;
-        [SerializeField] private List<PlayerLevelResult> PlayersResults = new List<PlayerLevelResult>();
-        
-        private Dictionary<GUID, PlayerLevelResult> _players = new Dictionary<GUID, PlayerLevelResult>();
+        [SerializeField] private List<PlayerLevelResult> PlayersResults;
         
         public GUID Id => _id;
 
@@ -21,43 +20,49 @@ namespace Models
         {
             Name = levelName;
             _id = GUID.Generate();
+            PlayersResults = new List<PlayerLevelResult>();
         }
 
-        public void AddPlayer(Player player, int result)
+        public PlayerLevelResult AddPlayer(Player player, int result)
         {
             var playerLevelResult = new PlayerLevelResult(this, player, result);
-            _players.Add(playerLevelResult.Player.Id, playerLevelResult);
-            
-            UpdatePlayerResultsList();
+            PlayersResults.Add(playerLevelResult);
+            SortPlayerResults();
+
+            return playerLevelResult;
         }
         
-        public void RemovePlayer(GUID playerId)
+        public void RemovePlayer(Player player)
         {
-            if (_players.ContainsKey(playerId))
+            var playerResult = PlayersResults.FirstOrDefault(x=> x.Player.Id == player.Id);
+            if (playerResult != null)
             {
-                _players.Remove(playerId);
-                UpdatePlayerResultsList();
+                PlayersResults.Remove(playerResult);
+                SortPlayerResults();
             }
         }
 
-        public void UpdatePlayerLevelInfo(GUID playerId, int newResult)
+        public void UpdatePlayerLevelInfo(Player player, int newResult)
         {
-            if (!_players.ContainsKey(playerId))
+            var playerResult = PlayersResults.FirstOrDefault(x=> x.Player.Id == player.Id);
+            if (playerResult == null)
+            {
+                AddPlayer(player, newResult);
                 return;
-            
-            var player = _players[playerId];
-            player.UpdatePlayerResult(newResult);
-        }
+            }
 
-        private void UpdatePlayerResultsList()
-        {
-            PlayersResults.Clear();
-            PlayersResults.AddRange(_players.Values);
-            PlayersResults.Sort();
+            playerResult.UpdatePlayerResult(newResult);
+            SortPlayerResults();
         }
+        
         public int CompareTo(Level other)
         {
             return Name.CompareTo(other.Name);
+        }
+
+        private void SortPlayerResults()
+        {
+            PlayersResults.Sort();
         }
     }
 }

@@ -35,6 +35,7 @@ namespace Controllers.SceneControllers
             startMenu.OnStartClicked.AddListener(OpenChoosePlayerMenu);
             choosePlayer.Initiate(SelectPlayer, OpenCreatePlayerMenu, OpenStartMenu);
             createPlayer.Initiate(SelectPlayer, OpenChoosePlayerMenu);
+            ClearPlayerInfo();
         }
 
         private void OpenChoosePlayerMenu()
@@ -60,6 +61,8 @@ namespace Controllers.SceneControllers
 
         private void SelectPlayer(Player player)
         {
+            if (player == null)
+                return;
             SavePlayerInfo(player);
             
             _sceneLoader.LoadNextScene();
@@ -69,6 +72,11 @@ namespace Controllers.SceneControllers
         {
             var json = JsonConvert.SerializeObject(player);
             PlayerPrefs.SetString(PlayerInfoConstants.CURRENT_PLAYER, json);
+        }
+
+        private void ClearPlayerInfo()
+        {
+            PlayerPrefs.DeleteKey(PlayerInfoConstants.CURRENT_PLAYER);
         }
     }
 }

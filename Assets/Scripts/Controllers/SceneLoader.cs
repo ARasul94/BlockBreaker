@@ -55,5 +55,10 @@ namespace Controllers
             _curSceneIndex = _sceneCount - 1;
             SceneManager.LoadScene(_curSceneIndex);
         }
+
+        public string GetCurrentLevelName()
+        {
+            return SceneManager.GetSceneByBuildIndex(_curSceneIndex).name;
+        }
     }
 }

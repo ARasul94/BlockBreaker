@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad32753cd56c7664ead8c71abc4a6de1, type: 3}
   m_Name: PlayersTable
   m_EditorClassIdentifier: 
-  Players: []
+  players:
+  - Name: rere

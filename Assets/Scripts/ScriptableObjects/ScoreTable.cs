@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Models;
 using UnityEditor;
 using UnityEngine;
@@ -9,48 +10,53 @@ namespace ScriptableObjects
     [CreateAssetMenu][Serializable]
     public class ScoreTable : ScriptableObject
     {
-        [SerializeField] private List<Level> levels = new List<Level>();
-        private Dictionary<string, Level> _levels = new Dictionary<string, Level>();
+        [SerializeField] private List<Level> levels;
         
-        public void AddLevel(string levelName)
+        private Level AddLevel(string levelName)
         {
-            if (_levels.ContainsKey(levelName))
-                return;
+            if (levels == null)
+                levels = new List<Level>();
+            
+            if (levels.Count(x => x.Name == levelName) > 0)
+                return levels.First(x => x.Name == levelName);
             
             var level = new Level(levelName);
-            _levels.Add(level.Name, level);
             
-            UpdateLevelsList();
+            levels.Add(level);
+            
+            return level;
+        }
+
+        public Level GetLevelInfo(string levelName)
+        {
+            return AddLevel(levelName);
         }
         
-        public void RemoveLevel(string levelName)
+        public void RemoveLevel(Level level)
         {
-            if (_levels.ContainsKey(levelName))
-                _levels.Remove(levelName);
+            var tmpLevel = levels.FirstOrDefault(x=> x.Id == level.Id);
+            if (tmpLevel != null)
+                levels.Remove(tmpLevel);
         }
 
         public void RemovePlayerInfo(Player player)
         {
-            foreach (var level in _levels.Values)
+            foreach (var level in levels)
             {
-                level.RemovePlayer(player.Id);
+                level.RemovePlayer(player);
             }
-            UpdateLevelsList();
         }
 
-        private void UpdateLevelsList()
+        public void UpdatePlayerLevelInfo(Level level, Player player, int newResult)
         {
-            levels.Clear();
-            levels.AddRange(_levels.Values);
-            levels.Sort();
-        }
-
-        public void UpdatePlayerLevelInfo(string levelName, GUID playerId, int newResult)
-        {
-            if (!_levels.ContainsKey(levelName))
+            if (levels == null)
+                levels = new List<Level>();
+            
+            var tmpLevel = levels.FirstOrDefault(x=> x.Id == level.Id);
+            if (tmpLevel == null)
                 return;
-            var level = _levels[levelName];
-            level.UpdatePlayerLevelInfo(playerId, newResult);
+
+            levels.First(x => x.Id == level.Id).UpdatePlayerLevelInfo(player, newResult);
         }
     }
 }
