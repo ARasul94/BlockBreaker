@@ -1,4 +1,5 @@
 ﻿using System;
+using Constants;
 using Controllers.ChoosePlayer;
 using Controllers.CreatePlayer;
 using Models;
@@ -58,9 +59,15 @@ namespace Controllers.SceneControllers
 
         private void SelectPlayer(Player player)
         {
-            //TODO Add logic to save player infopla
+            SavePlayerInfo(player);
             
             _sceneLoader.LoadNextScene();
+        }
+
+        private void SavePlayerInfo(Player player)
+        {
+            var json = JsonUtility.ToJson(player);
+            PlayerPrefs.SetString(PlayerInfoConstants.CURRENT_PLAYER, json);
         }
     }
 }
