@@ -21,7 +21,7 @@ namespace Controllers.ChoosePlayer
         private UnityAction<Player> _selectPlayerAction;
         private UnityAction _createPlayerAction;
         private UnityAction _cancelAction;
-        private List<ChoosePlayerElement> _playerElements;
+        private readonly List<ChoosePlayerElement> _playerElements = new List<ChoosePlayerElement>();
 
         private void OnEnable()
         {
@@ -37,7 +37,13 @@ namespace Controllers.ChoosePlayer
 
         private void OnDisable()
         {
-            _playerElements.ForEach(Destroy);
+            ClearElementsList();
+        }
+
+        private void ClearElementsList()
+        {
+            _playerElements.ForEach(x => Destroy(x.gameObject));
+            _playerElements.Clear();
         }
 
         public void Initiate(UnityAction<Player> selectPlayerAction, UnityAction createPlayerAction, UnityAction cancelAction)
@@ -54,7 +60,10 @@ namespace Controllers.ChoosePlayer
         
         private void DeletePlayer(Player player)
         {
-            playersTable.RemovePlayer(player);
+            if (playersTable.RemovePlayer(player))
+            {
+                CreatePlayersList();
+            }
         }
 
         private void OnSelectPlayerButtonClicked()
@@ -77,8 +86,8 @@ namespace Controllers.ChoosePlayer
         
         private void CreatePlayersList()
         {
-            _playerElements = new List<ChoosePlayerElement>();
-
+            ClearElementsList();
+            
             foreach (var player in playersTable.GetPlayers())
             {
                 var playerElement = Instantiate(playerPrefab, playersContainer);
