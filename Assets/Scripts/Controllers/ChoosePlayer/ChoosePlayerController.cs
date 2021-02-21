@@ -51,6 +51,11 @@ namespace Controllers.ChoosePlayer
         {
             _selectedPlayer = player;
         }
+        
+        private void DeletePlayer(Player player)
+        {
+            playersTable.RemovePlayer(player);
+        }
 
         private void OnSelectPlayerButtonClicked()
         {
@@ -77,7 +82,7 @@ namespace Controllers.ChoosePlayer
             foreach (var player in playersTable.GetPlayers())
             {
                 var playerElement = Instantiate(playerPrefab, playersContainer);
-                playerElement.InitField(player, OnPlayerSelected);
+                playerElement.InitField(player, OnPlayerSelected, DeletePlayer);
                 _playerElements.Add(playerElement);
             }
         }
