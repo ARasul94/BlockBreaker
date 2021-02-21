@@ -34,5 +34,10 @@ namespace ScriptableObjects
             if (_players.ContainsKey(player.Name))
                 _players.Remove(player.Name);
         }
+
+        public List<Player> GetPlayers()
+        {
+            return players;
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace Controllers
 
         private void SceneManagerOnsceneLoaded(Scene arg0, LoadSceneMode arg1)
         {
-            throw new System.NotImplementedException();
+            //TODO added logic to update player score info
         }
 
         public void RetryLevel()

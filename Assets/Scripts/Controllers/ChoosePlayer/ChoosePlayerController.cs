@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Models;
 using ScriptableObjects;
 using UnityEngine;
@@ -20,12 +21,23 @@ namespace Controllers.ChoosePlayer
         private UnityAction<Player> _selectPlayerAction;
         private UnityAction _createPlayerAction;
         private UnityAction _cancelAction;
+        private List<ChoosePlayerElement> _playerElements;
+
+        private void OnEnable()
+        {
+            CreatePlayersList();
+        }
 
         private void Start()
         {
             backButton.onClick.AddListener(OnCancelButtonClicked);
             selectPlayerButton.onClick.AddListener(OnSelectPlayerButtonClicked);
             createPlayerButton.onClick.AddListener(OnCreateButtonClicked);
+        }
+
+        private void OnDisable()
+        {
+            _playerElements.ForEach(Destroy);
         }
 
         public void Initiate(UnityAction<Player> selectPlayerAction, UnityAction createPlayerAction, UnityAction cancelAction)
@@ -56,6 +68,18 @@ namespace Controllers.ChoosePlayer
         private void OnCreateButtonClicked()
         {
             _createPlayerAction.Invoke();
+        }
+        
+        private void CreatePlayersList()
+        {
+            _playerElements = new List<ChoosePlayerElement>();
+
+            foreach (var player in playersTable.GetPlayers())
+            {
+                var playerElement = Instantiate(playerPrefab, playersContainer);
+                playerElement.InitField(player, OnPlayerSelected);
+                _playerElements.Add(playerElement);
+            }
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Controllers.ChoosePlayer
         public void InitField(Player player, UnityAction<Player> action)
         {
             _player = player;
+            playerName.text = _player.Name;
+            _onClickAction = action;
             _button = GetComponent<Button>();
             _button.onClick.RemoveAllListeners();
             _button.onClick.AddListener(OnClick);

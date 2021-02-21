@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class StartMenu : MonoBehaviour
+namespace Controllers.SceneControllers
 {
-    [SerializeField] private Button startGameButton;
-
-    public readonly UnityEvent OnStartClicked = new UnityEvent();
-
-    private void Start()
+    public class StartMenu : MonoBehaviour
     {
-        startGameButton.onClick.AddListener(OnStartGameClicked);
-    }
+        [SerializeField] private Button startGameButton;
 
-    private void OnStartGameClicked()
-    {
-        OnStartClicked.Invoke();
+        public readonly UnityEvent OnStartClicked = new UnityEvent();
+
+        private void Start()
+        {
+            startGameButton.onClick.AddListener(OnStartGameClicked);
+        }
+
+        private void OnStartGameClicked()
+        {
+            OnStartClicked.Invoke();
+        }
     }
 }

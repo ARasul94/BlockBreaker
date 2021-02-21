@@ -506,6 +506,7 @@ MonoBehaviour:
   nameInputField: {fileID: 7931041004313090905}
   cancelButton: {fileID: 4574367076429584111}
   createButton: {fileID: 633520195284026516}
+  playersTable: {fileID: 11400000, guid: 1daa2d8ed3011254a8793f55d2e4d645, type: 2}
 --- !u!1 &6801900641168215871
 GameObject:
   m_ObjectHideFlags: 0
