@@ -10,24 +10,34 @@ namespace Controllers.ChoosePlayer
     public class ChoosePlayerElement : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI playerName;
+        [SerializeField] private Button deletePlayerButton;
+        
 
         private Button _button;
         private Player _player;
-        private UnityAction<Player> _onClickAction;
+        private UnityAction<Player> _selectAction;
+        private UnityAction<Player> _deleteAction;
 
-        public void InitField(Player player, UnityAction<Player> action)
+        public void InitField(Player player, UnityAction<Player> selectPlayerAction, UnityAction<Player> deletePlayerAction)
         {
             _player = player;
             playerName.text = _player.Name;
-            _onClickAction = action;
+            _selectAction = selectPlayerAction;
+            _deleteAction = deletePlayerAction;
             _button = GetComponent<Button>();
-            _button.onClick.RemoveAllListeners();
-            _button.onClick.AddListener(OnClick);
+            _button.onClick.AddListener(OnSelectClicked);
+            
+            deletePlayerButton.onClick.AddListener(OnDeleteClicked);
         }
 
-        private void OnClick()
+        private void OnSelectClicked()
         {
-            _onClickAction.Invoke(_player);
+            _selectAction.Invoke(_player);
+        }
+
+        private void OnDeleteClicked()
+        {
+            _deleteAction.Invoke(_player);
         }
     }
 }
