@@ -29,10 +29,25 @@ namespace ScriptableObjects
             return player;
         }
         
-        public void RemovePlayer(Player player)
+        public bool RemovePlayer(Player player)
         {
-            if (_players.ContainsKey(player.Name))
-                _players.Remove(player.Name);
+            try
+            {
+                if (_players.ContainsKey(player.Name))
+                {
+                    _players.Remove(player.Name);
+                    return true;
+                }
+
+                Debug.LogError(new PlayerTableException(PlayerTableErrors.PLAYER_NOT_EXIST));
+                return false;
+
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+                throw new PlayerTableException(PlayerTableErrors.ERROR_ON_DELETE_PLAYER);
+            }
         }
 
         public List<Player> GetPlayers()
