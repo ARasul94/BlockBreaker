@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3881718972864017994}
   m_Layer: 0
   m_Name: Block Square
-  m_TagString: Untagged
+  m_TagString: Breakable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,3 +121,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb3a65f43f057a24a8df760ee704fd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  breakSound: {fileID: 8300000, guid: f5e4480289c66e840b6436b730f86333, type: 3}
+  blockSparklesVFX: {fileID: 100000, guid: 7d846c02296ef4dc4abff04ce3e5262c, type: 3}
