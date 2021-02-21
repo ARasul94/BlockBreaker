@@ -22,9 +22,7 @@ namespace ScriptableObjects
             var player = new Player(playerName);
             _players.Add(playerName, player);
             
-            players.Clear();
-            players.AddRange(_players.Values);
-            players.Sort();
+            UpdatePlayerList();
             
             return player;
         }
@@ -36,6 +34,7 @@ namespace ScriptableObjects
                 if (_players.ContainsKey(player.Name))
                 {
                     _players.Remove(player.Name);
+                    UpdatePlayerList();
                     return true;
                 }
 
@@ -53,6 +52,13 @@ namespace ScriptableObjects
         public List<Player> GetPlayers()
         {
             return players;
+        }
+
+        private void UpdatePlayerList()
+        {
+            players.Clear();
+            players.AddRange(_players.Values);
+            players.Sort();
         }
     }
 }
