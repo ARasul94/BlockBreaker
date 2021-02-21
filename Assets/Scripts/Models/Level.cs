@@ -28,15 +28,16 @@ namespace Models
             var playerLevelResult = new PlayerLevelResult(this, player, result);
             _players.Add(playerLevelResult.Player.Id, playerLevelResult);
             
-            PlayersResults.Clear();
-            PlayersResults.AddRange(_players.Values);
-            PlayersResults.Sort();
+            UpdatePlayerResultsList();
         }
         
         public void RemovePlayer(GUID playerId)
         {
             if (_players.ContainsKey(playerId))
+            {
                 _players.Remove(playerId);
+                UpdatePlayerResultsList();
+            }
         }
 
         public void UpdatePlayerLevelInfo(GUID playerId, int newResult)
@@ -48,6 +49,12 @@ namespace Models
             player.UpdatePlayerResult(newResult);
         }
 
+        private void UpdatePlayerResultsList()
+        {
+            PlayersResults.Clear();
+            PlayersResults.AddRange(_players.Values);
+            PlayersResults.Sort();
+        }
         public int CompareTo(Level other)
         {
             return Name.CompareTo(other.Name);

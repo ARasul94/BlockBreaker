@@ -20,15 +20,29 @@ namespace ScriptableObjects
             var level = new Level(levelName);
             _levels.Add(level.Name, level);
             
-            levels.Clear();
-            levels.AddRange(_levels.Values);
-            levels.Sort();
+            UpdateLevelsList();
         }
         
         public void RemoveLevel(string levelName)
         {
             if (_levels.ContainsKey(levelName))
                 _levels.Remove(levelName);
+        }
+
+        public void RemovePlayerInfo(Player player)
+        {
+            foreach (var level in _levels.Values)
+            {
+                level.RemovePlayer(player.Id);
+            }
+            UpdateLevelsList();
+        }
+
+        private void UpdateLevelsList()
+        {
+            levels.Clear();
+            levels.AddRange(_levels.Values);
+            levels.Sort();
         }
 
         public void UpdatePlayerLevelInfo(string levelName, GUID playerId, int newResult)

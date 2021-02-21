@@ -3,6 +3,7 @@ using Constants;
 using Controllers.ChoosePlayer;
 using Controllers.CreatePlayer;
 using Models;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Controllers.SceneControllers
@@ -66,7 +67,7 @@ namespace Controllers.SceneControllers
 
         private void SavePlayerInfo(Player player)
         {
-            var json = JsonUtility.ToJson(player);
+            var json = JsonConvert.SerializeObject(player);
             PlayerPrefs.SetString(PlayerInfoConstants.CURRENT_PLAYER, json);
         }
     }
